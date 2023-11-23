@@ -1,39 +1,27 @@
 import useSWR from "swr";
 import { StyledForm } from "./ProductForm.styled";
 
-export default function ProductForm() {
-  const { mutate } = useSWR("/api/products");
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const productData = Object.fromEntries(formData);
-    console.log(productData);
-
-    const response = await fetch("/api/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productData),
-    });
-
-    if (response.ok) {
-      mutate();
-    }
-  }
-
+export default function ProductForm({ onSubmit, value }) {
   return (
-    <StyledForm onSubmit={handleSubmit}>
+    <StyledForm onSubmit={onSubmit}>
       <label htmlFor="name-input">Name</label>
-      <input type="text" id="name-input" name="name" />
+      <input type="text" id="name-input" name="name" defaultValue={value} />
       <label htmlFor="description-input">Description</label>
-      <input type="text" id="description-input" name="description" />
+      <input
+        type="text"
+        id="description-input"
+        name="description"
+        defaultValue={value}
+      />
       <label htmlFor="price-input">Price</label>
-      <input type="text" id="price-input" name="price" />
+      <input type="text" id="price-input" name="price" defaultValue={value} />
       <label htmlFor="currency-input">Currency</label>
-      <input type="text" id="currency-input" name="currency" />
+      <input
+        type="text"
+        id="currency-input"
+        name="currency"
+        defaultValue={value}
+      />
       <button type="submit">Submit</button>
     </StyledForm>
   );
