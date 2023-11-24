@@ -29,6 +29,17 @@ export default function Product() {
     }
   }
 
+  async function handleDeleteProduct() {
+    const response = await fetch(`/api/products/${id}`, { method: "DELETE" });
+
+    if (!response.ok) {
+      console.log(response.status);
+      return;
+    }
+
+    router.push("/");
+  }
+
   const { data, isLoading, mutate } = useSWR(`/api/products/${id}`);
   console.log(data);
   if (isLoading) {
@@ -48,6 +59,11 @@ export default function Product() {
       >
         <span role="img" aria-label="A pencil">
           ✏️
+        </span>
+      </button>
+      <button onClick={handleDeleteProduct} disabled={isEditMode}>
+        <span role="img" aria-label="A cross indicating deletion">
+          ❌
         </span>
       </button>
       <h2>{data.name}</h2>
